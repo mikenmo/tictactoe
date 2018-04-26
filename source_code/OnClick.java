@@ -2,7 +2,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 class OnClick implements ActionListener 
 {
-    int turn; 
+    private final String CROSS="X";
+	private final String CIRCLE="O";
+
     Cell cell;
     Stage stage;
     public OnClick(Cell cell,Stage stage)
@@ -11,10 +13,11 @@ class OnClick implements ActionListener
         this.stage = stage;
     }
     public void actionPerformed(ActionEvent e) {
-        if(!stage.win){
+        if(!stage.state.win){
             if(!cell.marked)
             {
-                cell.markCell(Stage.playerTurn);
+                cell.markCell(CROSS);
+                this.stage.state.grid[this.stage.aiMove()].markCell(CIRCLE);
             }
         }
     }

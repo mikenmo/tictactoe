@@ -1,116 +1,140 @@
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JOptionPane;
-public class Stage extends JPanel {
+import java.util.ArrayList;
+public class Stage extends JPanel 
+{
     private final String CROSS="X";
 	private final String CIRCLE="O";
-    String[] state = new String[9];
-    boolean win;
-    boolean playerTurn;
+    State state;
+    
     public Stage()
     {
-        this.win=false;
+        this.state = new State(this);
         this.setLayout(new GridLayout(3,3));
-        Cell upperLeft = new Cell(this,0);
-        Cell upper = new Cell(this,1);
-        Cell upperRight = new Cell(this,2);
-        Cell left = new Cell(this,3);
-        Cell center = new Cell(this,4);
-        Cell right = new Cell(this,5);
-        Cell lowerLeft = new Cell(this,6);
-        Cell lower = new Cell(this,7);
-        Cell lowerRight = new Cell(this,8);
-        Player human = new Player(this,CROSS);
-        Player ai = new Player(this,CIRCLE);
+        if(!this.state.playerTurn)
+        {
+            this.state.grid[this.aiMove()].markCell(CIRCLE);
+        }
+    }
+    // public ArrayList<Integer> actions(State s)
+	// {
+	// 	ArrayList <Integer> action = new ArrayList <Integer> ();
+	// 	State dummy;
+    //     int i;
+	// 	for(i=0;i<9;i++)
+    //     {
+    //         dummy = new State(s);
+    //         if(!dummy.grid[i].marked)
+    //         {
+    //             action.add(i);
+    //         }
+    //         dummy = null;
+    //     }
+	// 	return action;  
+	// }
+
+    public int aiMove()
+    {   
+        int i;
+        for(i=0;i<9;i++)
+        {
+            if(!state.grid[i].marked)
+            {
+                return i;
+            }
+        }
+        return -1;
     }
     public void checkWin()
     {
         //123 456 789 - horizontal win
         //147 258 369 - vertical win
         //159 357 - diagonal win
-        if(this.state[0]!=null && this.state[1]!=null && this.state[2]!=null)
+        if(this.state.grid[0].mark!=null && this.state.grid[1].mark!=null && this.state.grid[2].mark!=null)
         {
-            if(this.state[0] == this.state[1] && this.state[0] == this.state[2])
+            if(this.state.grid[0].mark == this.state.grid[1].mark && this.state.grid[0].mark == this.state.grid[2].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
+                System.exit(0);
             }
         }
-        if(this.state[3]!=null && this.state[4]!=null && this.state[5]!=null)
+        if(this.state.grid[3].mark!=null && this.state.grid[4].mark!=null && this.state.grid[5].mark!=null)
         {
-            if(this.state[3] == this.state[4] && this.state[3] == this.state[5])
+            if(this.state.grid[3].mark == this.state.grid[4].mark && this.state.grid[3].mark == this.state.grid[5].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[3].mark));
+                System.exit(0);
             }
         }
-        if(this.state[6]!=null && this.state[7]!=null && this.state[8]!=null)
+        if(this.state.grid[6].mark!=null && this.state.grid[7].mark!=null && this.state.grid[8].mark!=null)
         {
-            if(this.state[6] == this.state[7] && this.state[6] == this.state[8])
+            if(this.state.grid[6].mark == this.state.grid[7].mark && this.state.grid[6].mark == this.state.grid[8].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[6].mark));
+                System.exit(0);
             }
         }
-        if(this.state[0]!=null && this.state[3]!=null && this.state[6]!=null)
+        if(this.state.grid[0].mark!=null && this.state.grid[3].mark!=null && this.state.grid[6].mark!=null)
         {
-            if(this.state[0] == this.state[3] && this.state[0] == this.state[6])
+            if(this.state.grid[0].mark == this.state.grid[3].mark && this.state.grid[0].mark == this.state.grid[6].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
+                System.exit(0);
             }
         }
-        if(this.state[1]!=null && this.state[4]!=null && this.state[7]!=null)
+        if(this.state.grid[1].mark!=null && this.state.grid[4].mark!=null && this.state.grid[7].mark!=null)
         {
-            if(this.state[1] == this.state[4] && this.state[1] == this.state[7])
+            if(this.state.grid[1].mark == this.state.grid[4].mark && this.state.grid[1].mark == this.state.grid[7].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[1].mark));
+                System.exit(0);
             }
         }
-        if(this.state[2]!=null && this.state[5]!=null && this.state[8]!=null)
+        if(this.state.grid[2].mark!=null && this.state.grid[5].mark!=null && this.state.grid[8].mark!=null)
         {
-            if(this.state[2] == this.state[5] && this.state[2] == this.state[8])
+            if(this.state.grid[2].mark == this.state.grid[5].mark && this.state.grid[2].mark == this.state.grid[8].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[2].mark));
+                System.exit(0);
             }
         }
-        if(this.state[0]!=null && this.state[4]!=null && this.state[8]!=null)
+        if(this.state.grid[0].mark!=null && this.state.grid[4].mark!=null && this.state.grid[8].mark!=null)
         {
-            if(this.state[0] == this.state[4] && this.state[0] == this.state[8])
+            if(this.state.grid[0].mark == this.state.grid[4].mark && this.state.grid[0].mark == this.state.grid[8].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
+                System.exit(0);
             }
         }
-        if(this.state[2]!=null && this.state[4]!=null && this.state[6]!=null)
+        if(this.state.grid[2].mark!=null && this.state.grid[4].mark!=null && this.state.grid[6].mark!=null)
         {
-            if(this.state[2] == this.state[4] && this.state[2] == this.state[6])
+            if(this.state.grid[2].mark == this.state.grid[4].mark && this.state.grid[2].mark == this.state.grid[6].mark)
             {
                 System.out.println("WIN!!");
-                this.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",(Cell.turn%2==0 ? CROSS : CIRCLE)));
-                return;
+                this.state.win=true;
+                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[2].mark));
+                System.exit(0);
             }
         }
-        if(this.state[0]!=null && this.state[1]!=null && this.state[2]!=null && this.state[3]!=null && this.state[4]!=null && this.state[5]!=null && this.state[6]!=null && this.state[7]!=null && this.state[8]!=null)
+        if(this.state.grid[0].mark!=null && this.state.grid[1].mark!=null && this.state.grid[2].mark!=null && this.state.grid[3].mark!=null && this.state.grid[4].mark!=null && this.state.grid[5].mark!=null && this.state.grid[6].mark!=null && this.state.grid[7].mark!=null && this.state.grid[8].mark!=null)
         {
             JOptionPane.showMessageDialog(null,"DRAW!!!");
+            System.exit(0);
         }
     }
 }

@@ -7,15 +7,12 @@ public class Cell extends JButton
 {
     private final String CROSS="X";
 	private final String CIRCLE="O";
-    static int turn = 0;
     boolean marked;
     String mark;
-    int index;
     Stage stage;
-    public Cell(Stage stage, int index)
+    public Cell(Stage stage)
     {
         this.marked=false;
-        this.index=index;
         this.stage=stage;
         stage.add(this);
         try
@@ -27,29 +24,31 @@ public class Cell extends JButton
         {
             System.out.println("Image files are missing! Please redownload or recheck the files!");
         }
-        this.addActionListener(new OnClick(Cell.turn,this,this.stage));
+        this.addActionListener(new OnClick(this,this.stage));
     }
-    public void markCell(int turn)
+    public void markCell(String mark)
     {
         try
         {
-            Image img;
-            if(turn%2==0)
+            if(mark.equals(CROSS))
             {
+                Image img;
                 img = ImageIO.read(getClass().getResource("img/cross.png"));
-                this.mark=CROSS;
-                this.stage.state[this.index] = CROSS;
+                this.mark=mark;
+                this.setIcon(new ImageIcon(img));
+                this.stage.checkWin();
+                this.marked=true;
             }
             else
             {
+                Image img;
                 img = ImageIO.read(getClass().getResource("img/circle.png"));
-                this.mark=CIRCLE;
-                this.stage.state[this.index] = CIRCLE;
+                this.mark=mark;
+                this.setIcon(new ImageIcon(img));
+                this.stage.checkWin();
+                this.marked=true;
             }
-            this.setIcon(new ImageIcon(img));
-            this.stage.checkWin();
-            Cell.turn+=1;
-            this.marked=true;
+            
         }
         catch(IOException ex)
         {
