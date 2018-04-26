@@ -26,6 +26,12 @@ public class Cell extends JButton
         }
         this.addActionListener(new OnClick(this,this.stage));
     }
+    public Cell(Cell cell)
+    {
+        this.marked = cell.marked;
+        this.stage = cell.stage;
+        this.mark = cell.mark;
+    }
     public void markCell(String mark)
     {
         try

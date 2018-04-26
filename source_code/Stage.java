@@ -6,8 +6,9 @@ public class Stage extends JPanel
 {
     private final String CROSS="X";
 	private final String CIRCLE="O";
+    private final int neg_inf=-9999;
+	private final int pos_inf=9999;
     State state;
-    
     public Stage()
     {
         this.state = new State(this);
@@ -17,34 +18,66 @@ public class Stage extends JPanel
             this.state.grid[this.aiMove()].markCell(CIRCLE);
         }
     }
-    // public ArrayList<Integer> actions(State s)
-	// {
-	// 	ArrayList <Integer> action = new ArrayList <Integer> ();
-	// 	State dummy;
-    //     int i;
-	// 	for(i=0;i<9;i++)
-    //     {
-    //         dummy = new State(s);
-    //         if(!dummy.grid[i].marked)
-    //         {
-    //             action.add(i);
-    //         }
-    //         dummy = null;
-    //     }
-	// 	return action;  
-	// }
+    public ArrayList<Integer> actions(State s)
+	{
+		ArrayList <Integer> action = new ArrayList <Integer> ();
+		State dummy;
+        int i;
+		for(i=0;i<9;i++)
+        {
+            dummy = new State(s);
+            if(!dummy.grid[i].marked)
+            {
+                action.add(i);
+            }
+            dummy = null;
+        }
+		return action;  
+	}
 
     public int aiMove()
     {   
-        int i;
-        for(i=0;i<9;i++)
+        this.state.playerTurn = false;
+        int val = value(this.state);
+        System.out.println(val);
+        this.state.playerTurn = true;
+        return 1;
+    }
+    public int value(State s)
+    {
+        s.checkWin();
+        if (s.win)
         {
-            if(!state.grid[i].marked)
-            {
-                return i;
-            }
+            return(s.playerTurn ? -10 : 10);
         }
-        return -1;
+        if (s.playerTurn)
+        {
+            return(max_value(s));
+        }
+        else
+        {
+            return(min_value(s));
+        }
+    }
+    public int max_value(State s)
+    {
+        int m = neg_inf;
+        for(int a : actions(s))
+        {
+            int v = value(new State(s,a));
+            m = ( (m>v) ? m : v );
+        }
+        return m;
+    }
+    public int min_value(State s)
+    {
+        int m = pos_inf;
+        for(int a : actions(s))
+        {
+            int v = value(new State(s,a));
+            m = ( (m<v) ? m : v );
+        }
+        return m;
     }
     public void checkWin()
     {
@@ -57,8 +90,8 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[3].mark!=null && this.state.grid[4].mark!=null && this.state.grid[5].mark!=null)
@@ -67,8 +100,8 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[3].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[3].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[6].mark!=null && this.state.grid[7].mark!=null && this.state.grid[8].mark!=null)
@@ -77,8 +110,8 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[6].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[6].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[0].mark!=null && this.state.grid[3].mark!=null && this.state.grid[6].mark!=null)
@@ -87,8 +120,8 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[1].mark!=null && this.state.grid[4].mark!=null && this.state.grid[7].mark!=null)
@@ -97,8 +130,8 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[1].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[1].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[2].mark!=null && this.state.grid[5].mark!=null && this.state.grid[8].mark!=null)
@@ -107,8 +140,8 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[2].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[2].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[0].mark!=null && this.state.grid[4].mark!=null && this.state.grid[8].mark!=null)
@@ -117,8 +150,8 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[0].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[2].mark!=null && this.state.grid[4].mark!=null && this.state.grid[6].mark!=null)
@@ -127,14 +160,14 @@ public class Stage extends JPanel
             {
                 System.out.println("WIN!!");
                 this.state.win=true;
-                JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[2].mark));
-                System.exit(0);
+                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.state.grid[2].mark));
+                // System.exit(0);
             }
         }
         if(this.state.grid[0].mark!=null && this.state.grid[1].mark!=null && this.state.grid[2].mark!=null && this.state.grid[3].mark!=null && this.state.grid[4].mark!=null && this.state.grid[5].mark!=null && this.state.grid[6].mark!=null && this.state.grid[7].mark!=null && this.state.grid[8].mark!=null)
         {
-            JOptionPane.showMessageDialog(null,"DRAW!!!");
-            System.exit(0);
+            // JOptionPane.showMessageDialog(null,"DRAW!!!");
+            // System.exit(0);
         }
     }
 }

@@ -13,12 +13,18 @@ class OnClick implements ActionListener
         this.stage = stage;
     }
     public void actionPerformed(ActionEvent e) {
-        if(!stage.state.win){
-            if(!cell.marked)
+        if(this.stage.state.playerTurn)
+        {
+            if(!stage.state.win)
             {
-                cell.markCell(CROSS);
-                this.stage.state.grid[this.stage.aiMove()].markCell(CIRCLE);
-            }
+                if(!cell.marked)
+                {
+                    cell.markCell(CROSS);
+                    this.stage.state.grid[this.stage.aiMove()].markCell(CIRCLE);
+                    this.stage.state.playerTurn = !this.stage.state.playerTurn;
+                }
+            }    
         }
+        
     }
 }
