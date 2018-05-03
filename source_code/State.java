@@ -8,6 +8,7 @@ public class State
     boolean win;
     boolean playerTurn;
     Random rand = new Random();
+    boolean draw = false;
     int action;
     public State(Stage stage)
     {
@@ -15,9 +16,10 @@ public class State
         this.win = false;
         this.playerTurn = rand.nextBoolean();
         this.stage=stage;
+        this.draw = false;
         for(i=0;i<9;i++)
         {
-            grid[i] = new Cell(this.stage);
+            this.grid[i] = new Cell(this.stage,i);
         }
     }
     public State(State state)
@@ -25,9 +27,10 @@ public class State
         int i;
         this.win = state.win;
         this.stage = state.stage;
+        this.draw = state.draw;
         for(i=0;i<9;i++)
         {
-            grid[i] = new Cell(state.grid[i]);
+            this.grid[i] = new Cell(state.grid[i]);
         }
         this.playerTurn = state.playerTurn;
     }
@@ -36,105 +39,113 @@ public class State
         int i;
         this.win = state.win;
         this.stage = state.stage;
+        this.draw = state.draw;
+        this.playerTurn = !state.playerTurn;
         for(i=0;i<9;i++)
         {
-            grid[i] = new Cell(state.grid[i]);
+            this.grid[i] = new Cell(state.grid[i]);
         }
-        grid[action].mark = (this.playerTurn ? CROSS : CIRCLE);
-        grid[action].marked = true;
-        this.playerTurn = !state.playerTurn;
-        System.out.println(this.playerTurn);
+        this.grid[action].mark = (this.playerTurn ? CIRCLE : CROSS);
+        this.grid[action].marked = true;
+        
     }
 
-    public void checkWin()
+    public void printGrid()
+    {
+        int i;
+        for(i=0;i<9;i++)
+        {
+            if(i%3==0)
+            {
+                System.out.println();
+            }
+            System.out.print(this.grid[i].mark);
+        }
+        System.out.println();
+    }
+    public boolean checkWin()
     {
         //123 456 789 - horizontal win
         //147 258 369 - vertical win
         //159 357 - diagonal win
+        // this.printGrid();
         if(this.grid[0].mark!=null && this.grid[1].mark!=null && this.grid[2].mark!=null)
         {
             if(this.grid[0].mark == this.grid[1].mark && this.grid[0].mark == this.grid[2].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[0].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[3].mark!=null && this.grid[4].mark!=null && this.grid[5].mark!=null)
         {
             if(this.grid[3].mark == this.grid[4].mark && this.grid[3].mark == this.grid[5].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[3].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[6].mark!=null && this.grid[7].mark!=null && this.grid[8].mark!=null)
         {
             if(this.grid[6].mark == this.grid[7].mark && this.grid[6].mark == this.grid[8].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[6].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[0].mark!=null && this.grid[3].mark!=null && this.grid[6].mark!=null)
         {
             if(this.grid[0].mark == this.grid[3].mark && this.grid[0].mark == this.grid[6].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[0].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[1].mark!=null && this.grid[4].mark!=null && this.grid[7].mark!=null)
         {
             if(this.grid[1].mark == this.grid[4].mark && this.grid[1].mark == this.grid[7].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[1].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[2].mark!=null && this.grid[5].mark!=null && this.grid[8].mark!=null)
         {
             if(this.grid[2].mark == this.grid[5].mark && this.grid[2].mark == this.grid[8].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[2].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[0].mark!=null && this.grid[4].mark!=null && this.grid[8].mark!=null)
         {
             if(this.grid[0].mark == this.grid[4].mark && this.grid[0].mark == this.grid[8].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[0].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[2].mark!=null && this.grid[4].mark!=null && this.grid[6].mark!=null)
         {
             if(this.grid[2].mark == this.grid[4].mark && this.grid[2].mark == this.grid[6].mark)
-            {
-                // System.out.println("WIN!!");
-                this.win=true;
-                // JOptionPane.showMessageDialog(null,String.format("%s WON!!!",this.grid[2].mark));
-                // System.exit(0);
+            {    
+                // System.out.println("win");
+                this.win = true;
+                return(true);
             }
         }
         if(this.grid[0].mark!=null && this.grid[1].mark!=null && this.grid[2].mark!=null && this.grid[3].mark!=null && this.grid[4].mark!=null && this.grid[5].mark!=null && this.grid[6].mark!=null && this.grid[7].mark!=null && this.grid[8].mark!=null)
         {
-            // JOptionPane.showMessageDialog(null,"DRAW!!!");
-            // System.exit(0);
+            // System.out.println("draw");
+            this.draw = true;
         }
+        return(false);
     }
 }

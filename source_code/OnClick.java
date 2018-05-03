@@ -20,8 +20,9 @@ class OnClick implements ActionListener
                 if(!cell.marked)
                 {
                     cell.markCell(CROSS);
-                    this.stage.state.grid[this.stage.aiMove()].markCell(CIRCLE);
-                    this.stage.state.playerTurn = !this.stage.state.playerTurn;
+                    if(!stage.state.win && !stage.state.draw){
+                        this.stage.state.grid[this.stage.aiMove()].markCell(CIRCLE);
+                    }
                 }
             }    
         }

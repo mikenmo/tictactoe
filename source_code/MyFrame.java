@@ -9,7 +9,7 @@ public class MyFrame extends JFrame
 {
 	public MyFrame ()
 	{
-        this.setPreferredSize(new Dimension(600,600));
+        this.setPreferredSize(new Dimension(300,300));
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setResizable(false);
         Container container = this.getContentPane();

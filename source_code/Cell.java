@@ -10,7 +10,8 @@ public class Cell extends JButton
     boolean marked;
     String mark;
     Stage stage;
-    public Cell(Stage stage)
+    int index;
+    public Cell(Stage stage, int index)
     {
         this.marked=false;
         this.stage=stage;
@@ -26,11 +27,13 @@ public class Cell extends JButton
         }
         this.addActionListener(new OnClick(this,this.stage));
     }
+
     public Cell(Cell cell)
     {
         this.marked = cell.marked;
         this.stage = cell.stage;
         this.mark = cell.mark;
+        this.index = cell.index;
     }
     public void markCell(String mark)
     {
