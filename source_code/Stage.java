@@ -41,14 +41,14 @@ public class Stage extends JPanel
         System.out.println("wait");
         this.state.playerTurn = false;
         int i;
-        Value val = value(this.state);
+        Value val = value(this.state,neg_inf,pos_inf);
         System.out.println("Next move: "+val.nextMove);
         System.out.println("Score: "+val.score);
         this.state.playerTurn = true;
         System.out.println("done");
         return val.nextMove;
     }
-    public Value value(State s)
+    public Value value(State s, int alpha, int beta)
     {
         if (s.checkWin())
         {
@@ -60,33 +60,43 @@ public class Stage extends JPanel
         }
         if (!s.playerTurn)
         {
-            return(max_value(s));
+            return(max_value(s,alpha,beta));
         }
         else
         {
-            return(min_value(s));
+            return(min_value(s,alpha,beta));
         }
     }
-    public Value max_value(State s)
+    public Value max_value(State s, int alpha, int beta)
     {
         Value m = new Value(neg_inf,9);
 
         for(int a : actions(s))
         {
-            Value v = value(new State(s,a));
-            m.nextMove = ( (v.score>m.score) ? a : m.nextMove);
+            Value v = value(new State(s,a),alpha,beta);
+            m.nextMove = ( (v.score>m.score) ? a : m.nextMove );
             m.score = ( (v.score>m.score) ? v.score : m.score );
+            if(m.score>=beta)
+            {
+                return m;
+            }
+            alpha = ( (alpha>m.score) ? alpha : m.score );
         }
         return m;
     }
-    public Value min_value(State s)
+    public Value min_value(State s, int alpha, int beta)
     {
         Value m = new Value(pos_inf,9);
         for(int a : actions(s))
         {
-            Value v = value(new State(s,a));
+            Value v = value(new State(s,a),alpha,beta);
             m.nextMove = ( (v.score<m.score) ? a : m.nextMove);
             m.score = ( (v.score<m.score) ? v.score : m.score );
+            if(m.score<=alpha)
+            {
+                return m;
+            }
+            beta = ( (beta<m.score) ? beta : m.score );
         }
         return m;
     }
