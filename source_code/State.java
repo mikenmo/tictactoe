@@ -14,7 +14,7 @@ public class State
     {
         int i;
         this.win = false;
-        this.playerTurn = false; //rand.nextBoolean();
+        this.playerTurn = rand.nextBoolean();
         this.stage=stage;
         this.draw = false;
         for(i=0;i<9;i++)
